@@ -1,0 +1,34 @@
+$green: #2da66f;
+$brown: #b48484;
+
+.main {
+    width: 60vw;
+    margin: auto;
+    height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    .hero-container {
+        .heading {
+            font-size: 80px;
+            margin-bottom: 100px;
+
+            .best {
+                color: $green;
+                font-size: 100px;
+            }
+            .beans {
+                color: $brown;
+            }
+            .century {
+                font-weight: 100;
+            }
+        }
+    }
+
+    .main-image {
+        height: 60vh;
+        -webkit-user-drag: none;
+    }
+}

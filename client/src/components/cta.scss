@@ -1,0 +1,29 @@
+$green: #2da66f;
+$brown: #b48484;
+
+.cta {
+    color: white;
+    padding: 15px;
+    background: $brown;
+    font-size: 20px;
+    border-radius: 10px;
+    transition: all 0.1s ease-in-out;
+    border-width: 3px;
+    border-style: solid;
+    border-color: $brown;
+
+    &.clear {
+        background: transparent;
+        color: $brown;
+
+        &:hover {
+            color: $green;
+            background: transparent;
+        }
+    }
+
+    &:hover {
+        background: $green;
+        border-color: $green;
+    }
+}

@@ -1,0 +1,13 @@
+$green: #2da66f;
+$brown: #b48484;
+
+.shop-showcase {
+    width: 70vw;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 10%;
+    margin-top: 10vh;
+    justify-items: center;
+    margin-bottom: 200px;
+}

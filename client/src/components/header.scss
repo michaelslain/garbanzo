@@ -1,0 +1,40 @@
+$green: #2da66f;
+$brown: #b48484;
+
+.header {
+    height: 100px;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    .logo {
+        background: linear-gradient(to right, $green, $brown);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: normal;
+    }
+
+    .text-container {
+        display: flex;
+
+        .tab {
+            color: #2e2e2e;
+            margin-left: 80px;
+            font-size: 18px;
+            font-weight: lighter;
+            transition: opacity 0.1s linear;
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+
+        .cart {
+            width: 25px;
+            position: relative;
+            bottom: 2.5px;
+        }
+    }
+}

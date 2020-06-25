@@ -1,0 +1,37 @@
+$green: #2da66f;
+$brown: #b48484;
+
+.learn-text-container {
+    width: 50vw;
+    margin: auto;
+
+    & > * {
+        margin: 50px;
+        margin-left: 0;
+        display: block;
+    }
+
+    .heading {
+        font-size: 50px;
+
+        &:nth-child(1) {
+            margin-top: 150px;
+        }
+    }
+
+    .text {
+        font-weight: lighter;
+        font-size: 20px;
+        line-height: 2em;
+    }
+
+    .image {
+        width: inherit;
+    }
+
+    .caption {
+        color: grey;
+        font-weight: lighter;
+        letter-spacing: 1px;
+    }
+}
