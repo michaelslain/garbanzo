@@ -35,7 +35,7 @@ export default function PaymentForm() {
                     <h1 className="sucess">
                         Your mock payment has been succesfully completed
                     </h1>
-                    <Cta link="/" className="return-cta">
+                    <Cta link="/" className="return-cta" clear={true}>
                         Return to home page
                     </Cta>
                 </Fragment>
