@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './App.scss'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import axios from 'axios'
 import Storage from './cartApi'
 
