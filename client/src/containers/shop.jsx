@@ -7,7 +7,7 @@ import Product from '../components/product'
 export default function Shop({ products, canProduct }) {
     if (!canProduct) return <LoadingScreen />
 
-    if (products.length === 1) {
+    if (products.length === 0) {
         return (
             <div className="no-products-container">
                 <i>
