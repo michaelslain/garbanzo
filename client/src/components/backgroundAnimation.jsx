@@ -3,16 +3,21 @@ import './backgroundAnimation.scss'
 import { useHistory } from 'react-router-dom'
 
 export default function BackgroundAnimation({ children }) {
-    const [style, setStyle] = useState(null)
+    const [classes, setClasses] = useState('no-animation')
     const history = useHistory()
 
-    useEffect(() => {
-        console.log('bet')
-    }, [history.location.pathname])
+    const handlePlayAnimation = () => {
+        setClasses('no-animation')
+        setTimeout(() => setClasses('animation'), 1)
+    }
 
-    return (
-        <div className="background-animation" style={style}>
-            {children}
-        </div>
-    )
+    useEffect(() => {
+        handlePlayAnimation()
+    }, [])
+
+    useEffect(() => {
+        return history.listen(handlePlayAnimation)
+    }, [history])
+
+    return <div className={'background-animation ' + classes}>{children}</div>
 }

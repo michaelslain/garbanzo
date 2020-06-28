@@ -9,6 +9,9 @@ import Header from './components/header'
 import Home from './containers/home'
 import Shop from './containers/shop'
 import LearnMore from './containers/learnMore'
+import Product from './containers/product'
+import Cart from './containers/cart'
+import Checkout from './containers/checkout'
 
 function App() {
     const [products, setProducts] = useState(null)
@@ -17,9 +20,8 @@ function App() {
         0
     )
 
-    const [cart, setCart] = useState(null)
     const [canCart, setCanCart] = useState(false)
-    const [fetchCartReloadCoutner, setFetchProductReloadCounter] = useState(0)
+    const [fetchCartReloadCounter, setFetchProductReloadCounter] = useState(0)
 
     useEffect(() => {
         handleInitStorage()
@@ -48,11 +50,16 @@ function App() {
 
     const handleFetchProductReload = () =>
         setfetchProductReloadCounter(fetchProductReloadCounter + 1)
+    const handleFetchCartReload = () =>
+        setFetchProductReloadCounter(fetchCartReloadCounter + 1)
 
     return (
         <Router>
             <BackgroundAnimation>
-                <Header />
+                <Header
+                    canCart={canCart}
+                    fetchCartReloadCounter={fetchCartReloadCounter}
+                />
                 <Switch>
                     <Route path="/" exact={true} render={Home} />
                     <Route
@@ -62,6 +69,42 @@ function App() {
                         )}
                     />
                     <Route path="/learn-more" render={LearnMore} />
+                    <Route
+                        path="/product/:productId"
+                        render={() => {
+                            return (
+                                <Product
+                                    handleFetchCartReload={
+                                        handleFetchCartReload
+                                    }
+                                    products={products}
+                                    canProduct={canProduct}
+                                    canCart={canCart}
+                                />
+                            )
+                        }}
+                    />
+                    <Route
+                        path="/cart"
+                        render={() => (
+                            <Cart
+                                handleFetchCartReload={handleFetchCartReload}
+                                products={products}
+                                canProduct={canProduct}
+                                canCart={canCart}
+                                fetchCartReloadCounter={fetchCartReloadCounter}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/checkout"
+                        render={() => (
+                            <Checkout
+                                handleFetchCartReload={handleFetchCartReload}
+                                canCart={canCart}
+                            />
+                        )}
+                    />
                 </Switch>
             </BackgroundAnimation>
         </Router>

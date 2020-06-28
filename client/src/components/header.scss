@@ -19,22 +19,16 @@ $brown: #b48484;
     .text-container {
         display: flex;
 
-        .tab {
-            color: #2e2e2e;
-            margin-left: 80px;
-            font-size: 18px;
-            font-weight: lighter;
-            transition: opacity 0.1s linear;
-
-            &:hover {
-                opacity: 0.8;
-            }
-        }
-
         .cart {
-            width: 25px;
-            position: relative;
-            bottom: 2.5px;
+            display: flex;
+            align-items: center;
+
+            .cart-image {
+                width: 25px;
+                margin-right: 5px;
+                position: relative;
+                bottom: 2px;
+            }
         }
     }
 }

@@ -19,7 +19,7 @@ export default function Home() {
                     Check out our pricings!
                 </Cta>
             </div>
-            <img className="main-image" src={MainImage} />
+            <img className="main-image" src={MainImage} alt="Plant" />
         </div>
     )
 }

@@ -1,0 +1,59 @@
+$green: #2da66f;
+$brown: #b48484;
+
+.checkout-page {
+    width: 100vw;
+    height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .tabs {
+        display: flex;
+        width: 700px;
+        justify-content: space-around;
+        margin-top: 100px;
+        cursor: pointer;
+
+        .tab {
+            color: grey;
+            font-weight: lighter;
+
+            &:hover {
+                opacity: 0.5;
+            }
+        }
+    }
+
+    .window {
+        width: 700px;
+        height: 500px;
+        background: white;
+        margin-top: 50px;
+        box-shadow: lightgrey 10px 10px 20px;
+        border-radius: 10px;
+        overflow: hidden;
+
+        .reel {
+            display: flex;
+            height: inherit;
+            width: calc(100% * 3);
+            position: relative;
+            right: 0;
+            transition: all 0.4s linear;
+
+            .form {
+                width: 700px;
+                height: inherit;
+
+                
+
+                
+            }
+        }
+    }
+
+    .form-cta {
+        margin-top: 40px;
+    }
+}

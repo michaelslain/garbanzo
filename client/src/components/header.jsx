@@ -1,9 +1,25 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './header.scss'
 import { Link } from 'react-router-dom'
 import CartIcon from '../images/cart.svg'
+import Storage from '../cartApi'
 
-export default function Header() {
+import Tab from './tab'
+
+export default function Header({ canCart, fetchCartReloadCounter }) {
+    const [cartNumber, setCartNumber] = useState('%')
+
+    useEffect(() => {
+        if (canCart) handleGetCartNumber()
+    }, [canCart, fetchCartReloadCounter])
+
+    const handleGetCartNumber = async () => {
+        const data = await Storage.getItems()
+        const amountOfCartNumber = data.length
+
+        setCartNumber(amountOfCartNumber)
+    }
+
     return (
         <div className="header">
             <Link to="/">
@@ -13,18 +29,11 @@ export default function Header() {
                 <Tab link="/">Home</Tab>
                 <Tab link="/shop">Shop</Tab>
                 <Tab link="/learn-more">Learn More</Tab>
-                <Tab link="/cart">
-                    <img src={CartIcon} alt="Cart" className="cart" />
+                <Tab link="/cart" className="cart">
+                    <img src={CartIcon} alt="Cart" className="cart-image" />
+                    {cartNumber}
                 </Tab>
             </div>
         </div>
-    )
-}
-
-function Tab({ children, link, style }) {
-    return (
-        <Link to={link} className="tab" style={style}>
-            {children}
-        </Link>
     )
 }

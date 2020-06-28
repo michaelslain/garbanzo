@@ -1,20 +1,16 @@
 import express from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
-import dotEnv from 'dotenv'
 import bodyParser from 'body-parser'
 import path from 'path'
 
 // Route imports
 import productsRouter from './routes/products.js'
 
-dotEnv.config()
-
 const port = process.env.PORT || 5000
 const runTimeMode = process.env.PORT == null ? 'development' : 'production'
 
-const uri =
-    runTimeMode === 'development' ? 'mongodb://localhost/garbanzo' : 'bruh'
+const uri = process.env.MONGODB_URI || 'mongodb://localhost/garbanzo'
 const mongooseConfig = {
     useNewUrlParser: true,
     useUnifiedTopology: true,

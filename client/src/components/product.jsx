@@ -12,6 +12,8 @@ export default function Product({ data }) {
         minimumFractionDigits: 2,
     })
 
+    const url = `/product/${data._id}`
+
     return (
         <div className="product">
             <div className="image-container">
@@ -19,7 +21,9 @@ export default function Product({ data }) {
             </div>
             <h1 className="name">{name}</h1>
             <h2 className="price">{formatter.format(price)}</h2>
-            <Cta style={{ marginTop: '20px' }}>Visit Product</Cta>
+            <Cta className="cta" link={url}>
+                Visit Product
+            </Cta>
         </div>
     )
 }

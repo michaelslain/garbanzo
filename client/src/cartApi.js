@@ -1,10 +1,16 @@
-import { getDefaultNormalizer } from '@testing-library/react'
-
 const getData = async () => {
     const data = localStorage.getItem('cart')
     const json = await JSON.parse(data)
 
     return json
+}
+
+class Item {
+    constructor({ productId, amount, id }) {
+        this.productId = productId
+        this.amount = amount
+        this.id = id
+    }
 }
 
 export default {
@@ -24,19 +30,14 @@ export default {
     async addItem({ productId, amount }) {
         const data = await getData()
 
-        const newObj = {
-            id: data.length,
-            productId,
-            amount,
-        }
-        data.push(newObj)
+        data.push(new Item({ id: data.length, productId, amount }))
 
         localStorage.setItem('cart', JSON.stringify(data))
 
         return
     },
     async removeItem({ id }) {
-        const data = await getData()
+        let data = await getData()
 
         data = data
             .filter(item => item.id !== id)
@@ -46,6 +47,12 @@ export default {
             })
 
         localStorage.setItem('cart', JSON.stringify(data))
+
+        return
+    },
+    Item,
+    async clearCart() {
+        localStorage.setItem('cart', JSON.stringify([]))
 
         return
     },
