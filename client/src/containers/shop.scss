@@ -11,3 +11,17 @@ $brown: #b48484;
     justify-items: center;
     margin-bottom: 200px;
 }
+
+.no-products-container {
+    width: 100vw;
+    height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    .text {
+        color: lightgrey;
+        font-size: 50px;
+        font-weight: lighter;
+    }
+}
