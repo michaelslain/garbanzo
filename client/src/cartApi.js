@@ -67,6 +67,7 @@ export default {
         return
     },
     Item,
+    getData,
     async clearCart() {
         localStorage.setItem('cart', JSON.stringify([]))
 
