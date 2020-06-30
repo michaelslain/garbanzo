@@ -24,8 +24,8 @@ function App() {
     const [fetchCartReloadCounter, setFetchProductReloadCounter] = useState(0)
 
     useEffect(() => {
-        handleInitStorage()
-    }, [])
+        if (products != null) handleInitStorage()
+    }, [products])
 
     useEffect(() => {
         handleGetProducts()
@@ -44,7 +44,7 @@ function App() {
     }
 
     const handleInitStorage = async () => {
-        await Storage.storageInit()
+        await Storage.storageInit(products)
         setCanCart(true)
     }
 

@@ -14,12 +14,28 @@ class Item {
 }
 
 export default {
-    async storageInit() {
-        const data = localStorage.getItem('cart')
+    async storageInit(products = []) {
+        console.log(products)
+
+        let data = localStorage.getItem('cart')
 
         if (data == null || data === '') {
             localStorage.setItem('cart', JSON.stringify([]))
+            return
         }
+
+        if (products.length === 0) {
+            localStorage.setItem('cart', JSON.stringify([]))
+            return
+        }
+
+        let productIds = {}
+        products.forEach(product => (productIds[product._id] = true))
+
+        let items = await JSON.parse(data)
+        items = items.filter(item => productIds[item.productId] === true)
+
+        localStorage.setItem('cart', JSON.stringify(items))
 
         return
     },
