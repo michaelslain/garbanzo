@@ -69,7 +69,7 @@ $brown: #b48484;
                 margin-top: 10px;
                 display: flex;
 
-                & > * {
+                * {
                     margin-right: 10px;
 
                     &.amount-clear {
@@ -81,8 +81,44 @@ $brown: #b48484;
             .cta-s {
                 margin-top: 140px;
 
-                & > * {
+                * {
                     margin-right: 20px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1030px) {
+    .product-page {
+        flex-direction: column;
+        align-items: center;
+
+        .image-container {
+            margin-top: 50px;
+
+            .inner-image-container {
+                width: 400px;
+            }
+        }
+
+        .text-container {
+            margin-bottom: 100px;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+
+            .inner-text-container {
+                width: auto;
+                height: auto;
+
+                .name {
+                    margin-top: 50px;
+                }
+
+                .cta-s {
+                    margin-top: 50px;
                 }
             }
         }

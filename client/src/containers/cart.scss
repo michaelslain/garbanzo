@@ -78,3 +78,33 @@ $brown: #b48484;
         }
     }
 }
+
+@media screen and (max-width: 1130px) {
+    .cart-page {
+        flex-direction: column-reverse;
+
+        .checkout-container {
+            width: 90vw;
+            margin: auto;
+            height: 300px;
+
+            .inner-container {
+                width: inherit;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+
+                .checkout-cta {
+                    margin: 0;
+                }
+            }
+        }
+
+        .cart-container {
+            width: 100vw;
+            margin: 0;
+            overflow: visible;
+        }
+    }
+}

@@ -31,9 +31,6 @@ router.get('/get', async (req, res) => {
 // POST
 router.post('/post', upload.single('image'), async (req, res) => {
     try {
-        const dir = '../uploads'
-        if (!fs.existsSync(dir)) fs.mkdirSync(dir)
-
         const { name, price, description } = req.body
         const image = req.file.path
         const newProduct = new Product({ name, price, description, image })

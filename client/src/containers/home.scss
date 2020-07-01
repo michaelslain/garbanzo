@@ -32,3 +32,22 @@ $brown: #b48484;
         -webkit-user-drag: none;
     }
 }
+
+@media screen and (max-width: 850px) {
+    .main {
+        flex-direction: column;
+        width: 100vw;
+
+        .hero-container {
+            .heading {
+                width: inherit;
+            }
+        }
+
+        .main-image {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.3;
+        }
+    }
+}

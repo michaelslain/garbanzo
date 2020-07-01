@@ -13,10 +13,7 @@ $brown: #b48484;
 
     .heading {
         font-size: 50px;
-
-        &:nth-child(1) {
-            margin-top: 150px;
-        }
+        margin-top: 150px;
     }
 
     .text {
@@ -27,11 +24,28 @@ $brown: #b48484;
 
     .image {
         width: inherit;
+        border-radius: 10px;
     }
 
     .caption {
         color: grey;
         font-weight: lighter;
         letter-spacing: 1px;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    .learn-text-container {
+        width: 60vw;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .learn-text-container {
+        width: 80vw;
+
+        .heading {
+            margin-top: 50px;
+        }
     }
 }

@@ -89,13 +89,15 @@ export default function Cart({
             </div>
             <div className="checkout-container">
                 <div className="inner-container">
-                    <div className="price">
-                        + {formatter.format(totalProductPrice)}
-                    </div>
-                    <div className="tax">+ {formatter.format(tax)}</div>
-                    <div className="shipping">+ FREE SHIPPING</div>
-                    <div className="total">
-                        = {formatter.format(totalPrice)}
+                    <div className="text-container">
+                        <div className="price">
+                            + {formatter.format(totalProductPrice)}
+                        </div>
+                        <div className="tax">+ {formatter.format(tax)}</div>
+                        <div className="shipping">+ FREE SHIPPING</div>
+                        <div className="total">
+                            = {formatter.format(totalPrice)}
+                        </div>
                     </div>
                     <Cta link="/checkout" className="checkout-cta">
                         Checkout

@@ -55,3 +55,49 @@ $brown: #b48484;
         margin-top: 20px;
     }
 }
+
+@media screen and (max-width: 1270px) {
+    .product {
+        width: 30vw;
+        height: 50vw;
+
+        .name {
+            margin-top: 2vw;
+        }
+    }
+}
+
+@media screen and (max-width: 1040px) {
+    .product {
+        width: 30vw;
+        height: 50vw;
+
+        .name {
+            margin-top: 2vw;
+            font-size: 30px;
+        }
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .product {
+        width: inherit;
+        height: 100vw;
+        margin-top: 50px;
+
+        .name {
+            margin-top: 8vw;
+            font-size: 30px;
+        }
+
+        &:last-child {
+            margin-bottom: 50px;
+        }
+    }
+}
+
+@media screen and (max-width: 570px) {
+    .product .name {
+        margin-top: 3vw;
+    }
+}

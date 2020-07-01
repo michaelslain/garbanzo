@@ -23,5 +23,15 @@ $brown: #b48484;
         color: lightgrey;
         font-size: 50px;
         font-weight: lighter;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .shop-showcase {
+        display: flex;
+        flex-direction: column;
+        width: 60vw;
+        margin: auto;
     }
 }
