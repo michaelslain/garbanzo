@@ -5,8 +5,11 @@ import Cta from '../components/cta'
 import AddressForm from '../components/addressForm'
 import ReviewForm from '../components/reviewForm'
 import PaymentForm from '../components/paymentForm'
+import LoadingScreen from '../components/loadingScreen'
 
 export default function Checkout({ canCart, handleFetchCartReload }) {
+    const [num, setNum] = useState(700)
+
     const [canGoReview, setCanGoReview] = useState(false)
     const [canGoPayment, setCanGoPayment] = useState(false)
     const [canNext, setCanNext] = useState(false)
@@ -22,6 +25,23 @@ export default function Checkout({ canCart, handleFetchCartReload }) {
     const [cityIsValid, setCityIsValid] = useState(false)
     const [stateIsValid, setStateIsValid] = useState(false)
     const [zipCodeIsValid, setZipCodeIsValid] = useState(false)
+
+    const windowRef = useRef(null)
+
+    const handleUpdateNum = () => setNum(windowRef.current.innerWidth)
+
+    useEffect(() => {
+        if (windowRef.current != null) {
+            handleUpdateNum()
+            window.addEventListener('resize', handleUpdateNum)
+
+            return () => {
+                window.removeEventListener('resize', handleUpdateNum)
+            }
+        }
+    }, [handleUpdateNum, windowRef.current])
+
+    console.log(num)
 
     useEffect(() => {
         validateAddress()
@@ -49,7 +69,7 @@ export default function Checkout({ canCart, handleFetchCartReload }) {
             }
         }
 
-        if (reelRight === 700) setCanGoPayment(true)
+        if (reelRight === num) setCanGoPayment(true)
     }, [address, city, state, zipCode, reelRight])
 
     const validateZipCode = () => {
@@ -94,19 +114,21 @@ export default function Checkout({ canCart, handleFetchCartReload }) {
 
     const handleSwitchToAddress = () => setReelRight(0)
     const handleSwitchToReview = () => {
-        if (canGoReview) setReelRight(700)
+        if (canGoReview) setReelRight(num)
     }
     const handleSwitchToPayment = () => {
-        if (canGoPayment) setReelRight(1400)
+        if (canGoPayment) setReelRight(num * 2)
     }
     const handleNext = () => {
-        if (reelRight < 1400 && canNext) setReelRight(reelRight + 700)
+        if (reelRight < num * 2 && canNext) setReelRight(reelRight + num)
     }
+
+    if (!canCart) return <LoadingScreen />
 
     const selectedStyle = { color: 'black', fontWeight: 'normal' }
     const addressTabStyle = reelRight === 0 ? selectedStyle : {}
-    const reviewTabStyle = reelRight === 700 ? selectedStyle : {}
-    const paymentTabStyle = reelRight === 1400 ? selectedStyle : {}
+    const reviewTabStyle = reelRight === num ? selectedStyle : {}
+    const paymentTabStyle = reelRight === num * 2 ? selectedStyle : {}
 
     return (
         <div className="checkout-page">
@@ -133,7 +155,7 @@ export default function Checkout({ canCart, handleFetchCartReload }) {
                     Payment
                 </p>
             </div>
-            <div className="window">
+            <div className="window" ref={windowRef}>
                 <div className="reel" style={{ right: reelRight }}>
                     <AddressForm
                         address={address}
@@ -150,7 +172,9 @@ export default function Checkout({ canCart, handleFetchCartReload }) {
                         zipCodeIsValid={zipCodeIsValid}
                     ></AddressForm>
                     <ReviewForm></ReviewForm>
-                    <PaymentForm></PaymentForm>
+                    <PaymentForm
+                        handleFetchCartReload={handleFetchCartReload}
+                    ></PaymentForm>
                 </div>
             </div>
             <Cta className="form-cta" link="none" callback={handleNext}>

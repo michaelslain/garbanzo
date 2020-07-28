@@ -5,7 +5,7 @@ import Storage from '../cartApi'
 
 import Cta from './cta'
 
-export default function PaymentForm() {
+export default function PaymentForm({ handleFetchCartReload }) {
     const [isDone, setIsDone] = useState(false)
     const [isError, setIsError] = useState(false)
 
@@ -24,6 +24,7 @@ export default function PaymentForm() {
     const handleOnSuccess = payment => {
         setIsDone(true)
         Storage.clearCart()
+        handleFetchCartReload()
     }
     const handleOnCancel = data => console.log('cancelled')
     const handleOnError = err => setIsError({ status: true, err })
