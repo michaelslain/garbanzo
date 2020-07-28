@@ -11,7 +11,7 @@
         "client": "cd client && yarn start",
         "server": "nodemon .",
         "dev": "concurrently \"yarn client\" \"yarn server\"",
-        "heroku-postbuild": "YARN_PRODUCTION=false cd client && yarn && yarn build"
+        "heroku-postbuild": "YARN_PRODUCTION=false mkdir uploads && cd client && yarn && yarn build"
     },
     "devDependencies": {
         "concurrently": "^5.2.0",
