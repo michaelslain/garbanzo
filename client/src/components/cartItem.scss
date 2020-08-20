@@ -1,16 +1,12 @@
-$green: #2da66f;
-$brown: #b48484;
-
 .cart-item {
     height: 80px;
     margin: auto;
     margin-bottom: 20px;
     border-radius: 50px;
-    box-shadow: lightgrey 0 5px 10px;
     width: 70%;
     display: flex;
     align-items: center;
-    background: white;
+    background: #171717;
     position: relative;
     transition: all 0.3s linear;
 
@@ -27,17 +23,18 @@ $brown: #b48484;
         left: 30px;
         width: 30px;
         height: 30px;
-        background: $brown;
+        background: cornflowerblue;
     }
 
     .name {
         left: 100px;
         font-size: 20px;
+        color: white;
     }
 
     .price {
         right: 300px;
-        color: $green;
+        color: lightgrey;
         font-weight: lighter;
     }
 
@@ -45,6 +42,8 @@ $brown: #b48484;
         right: 0;
         right: 200px;
         font-weight: lighter;
+        color: white;
+        font-weight: bolder;
     }
 
     .visit {
@@ -59,9 +58,10 @@ $brown: #b48484;
         font-size: 20px;
         cursor: pointer;
         transition: all 0.1s linear;
+        color: red;
+        font-family: Arial, Helvetica, sans-serif;
 
         &:hover {
-            color: red;
             font-size: 30px;
             transform: translateX(4px);
         }

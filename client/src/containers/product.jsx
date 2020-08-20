@@ -11,6 +11,7 @@ export default function Product({
     products,
     canProduct,
     canCart,
+    setBanner,
 }) {
     const [data, setData] = useState(null)
     const [selectedAmount, setSelectedAmount] = useState(null)
@@ -29,13 +30,15 @@ export default function Product({
         if (!canCart) return
 
         if (selectedAmount == null) {
-            alert('Must select amount')
+            setBanner({ type: 'error', text: 'Must Select Size!' })
             return
         }
 
         await Storage.addItem({ productId: data._id, amount: selectedAmount })
 
         handleFetchCartReload()
+
+        setBanner({ type: 'good', text: 'Added to Cart :D' })
     }
 
     if (data == null) {
@@ -48,7 +51,7 @@ export default function Product({
         minimumFractionDigits: 2,
     })
 
-    const amounts = ['16oz', '1lb', '2lb', '6lb', '10lb']
+    const amounts = ['XS', 'S', 'M', 'L', 'XL']
 
     return (
         <div className="product-page">
@@ -65,7 +68,7 @@ export default function Product({
                 <div className="inner-text-container">
                     <h1 className="name">{data.name}</h1>
                     <h2 className="price">{formatter.format(data.price)}</h2>
-                    <h3 className="amount-heading">Select an amount</h3>
+                    <h3 className="amount-heading">Select a size</h3>
                     <div className="amount-container">
                         {amounts.map((amount, i) => {
                             const isClear = selectedAmount !== amount

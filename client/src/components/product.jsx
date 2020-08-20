@@ -17,7 +17,7 @@ export default function Product({ data }) {
     return (
         <div className="product">
             <div className="image-container">
-                <img src={'/api/' + image} alt={name} className="image" />
+                <img src={`/api/${image}`} alt={name} className="image" />
             </div>
             <h1 className="name">{name}</h1>
             <h2 className="price">{formatter.format(price)}</h2>

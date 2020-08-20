@@ -8,20 +8,21 @@ import BackgroundAnimation from './components/backgroundAnimation'
 import Header from './components/header'
 import Home from './containers/home'
 import Shop from './containers/shop'
-import LearnMore from './containers/learnMore'
+import About from './containers/about'
 import Product from './containers/product'
 import Cart from './containers/cart'
 import Checkout from './containers/checkout'
+import Banner from './components/banner'
 
 function App() {
     const [products, setProducts] = useState(null)
     const [canProduct, setCanProduct] = useState(false)
-    const [fetchProductReloadCounter, setfetchProductReloadCounter] = useState(
+    const [fetchProductReloadCounter, setFetchProductReloadCounter] = useState(
         0
     )
-
     const [canCart, setCanCart] = useState(false)
-    const [fetchCartReloadCounter, setFetchProductReloadCounter] = useState(0)
+    const [fetchCartReloadCounter, setFetchCartReloadCounter] = useState(0)
+    const [banner, setBanner] = useState(null)
 
     useEffect(() => {
         if (products != null) handleInitStorage()
@@ -49,9 +50,9 @@ function App() {
     }
 
     const handleFetchProductReload = () =>
-        setfetchProductReloadCounter(fetchProductReloadCounter + 1)
+        setFetchProductReloadCounter(fetchProductReloadCounter + 1)
     const handleFetchCartReload = () =>
-        setFetchProductReloadCounter(fetchCartReloadCounter + 1)
+        setFetchCartReloadCounter(fetchCartReloadCounter + 1)
 
     return (
         <Router>
@@ -60,6 +61,7 @@ function App() {
                     canCart={canCart}
                     fetchCartReloadCounter={fetchCartReloadCounter}
                 />
+                <Banner banner={banner} setBanner={setBanner} />
                 <Switch>
                     <Route path="/" exact={true} render={Home} />
                     <Route
@@ -68,7 +70,7 @@ function App() {
                             <Shop products={products} canProduct={canProduct} />
                         )}
                     />
-                    <Route path="/learn-more" render={LearnMore} />
+                    <Route path="/about" render={About} />
                     <Route
                         path="/product/:productId"
                         render={() => {
@@ -80,6 +82,7 @@ function App() {
                                     products={products}
                                     canProduct={canProduct}
                                     canCart={canCart}
+                                    setBanner={setBanner}
                                 />
                             )
                         }}
@@ -101,7 +104,10 @@ function App() {
                         render={() => (
                             <Checkout
                                 handleFetchCartReload={handleFetchCartReload}
+                                products={products}
+                                canProduct={canProduct}
                                 canCart={canCart}
+                                setBanner={setBanner}
                             />
                         )}
                     />

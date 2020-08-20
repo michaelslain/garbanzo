@@ -3,14 +3,18 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import path from 'path'
+import dotenv from 'dotenv'
 
 // Route imports
 import productsRouter from './routes/products.js'
+import ordersRouter from './routes/orders.js'
+
+dotenv.config()
 
 const port = process.env.PORT || 5000
 const runTimeMode = process.env.PORT == null ? 'development' : 'production'
 
-const uri = process.env.MONGODB_URI || 'mongodb://localhost/garbanzo'
+const uri = process.env.MONGODB_URI || 'mongodb://localhost/epsilon'
 const mongooseConfig = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -33,6 +37,7 @@ app
 
     // Routes
     .use('/api/products', productsRouter)
+    .use('/api/orders', ordersRouter)
     .use('/api/uploads', express.static(path.join(path.dirname(''), 'uploads')))
 
 if (runTimeMode === 'production') {

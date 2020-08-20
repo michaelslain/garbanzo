@@ -1,6 +1,3 @@
-$green: #2da66f;
-$brown: #b48484;
-
 .product-page {
     width: 100vw;
     height: calc(100vh - 200px);
@@ -49,11 +46,12 @@ $brown: #b48484;
             .name {
                 margin-top: 200px;
                 font-size: 60px;
+                color: white;
             }
 
             .price {
                 font-size: 30px;
-                color: $green;
+                color: lightgrey;
                 font-weight: lighter;
             }
 
@@ -61,7 +59,7 @@ $brown: #b48484;
                 font-size: 20px;
                 margin-top: 50px;
                 font-weight: lighter;
-                color: $brown;
+                color: grey;
             }
 
             .amount-container {
@@ -71,6 +69,8 @@ $brown: #b48484;
 
                 * {
                     margin-right: 10px;
+                    min-width: 30px;
+                    text-align: center;
 
                     &.amount-clear {
                         opacity: 0.5;
@@ -98,7 +98,7 @@ $brown: #b48484;
             margin-top: 50px;
 
             .inner-image-container {
-                width: 400px;
+                width: 1000px;
             }
         }
 

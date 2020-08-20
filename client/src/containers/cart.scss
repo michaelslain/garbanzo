@@ -25,13 +25,12 @@ $brown: #b48484;
         .inner-container {
             padding: 60px;
             border-radius: 10px;
-            background: white;
-            box-shadow: lightgrey 10px 10px 20px;
+            background: #171717;
 
             .price,
             .tax,
             .shipping {
-                color: grey;
+                color: lightgrey;
                 margin-bottom: 5px;
             }
 
@@ -45,11 +44,12 @@ $brown: #b48484;
 
             .shipping {
                 font-weight: lighter;
-                color: $green;
             }
 
             .total {
                 font-size: 30px;
+                color: white;
+                font-weight: bold;
             }
 
             .checkout-cta {
@@ -72,7 +72,7 @@ $brown: #b48484;
 
         .text {
             margin-bottom: 50px;
-            color: lightgrey;
+            color: grey;
             font-size: 50px;
             font-weight: lighter;
         }

@@ -1,185 +1,246 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, Fragment } from 'react'
+import { useHistory } from 'react-router-dom'
+import { PayPalButton } from 'react-paypal-button-v2'
 import './checkout.scss'
 
 import Cta from '../components/cta'
-import AddressForm from '../components/addressForm'
-import ReviewForm from '../components/reviewForm'
-import PaymentForm from '../components/paymentForm'
+import CartApi from '../cartApi'
+import Footer from '../components/footer'
 import LoadingScreen from '../components/loadingScreen'
+import CheckoutCartItem from '../components/checkoutCartItem'
 
-export default function Checkout({ canCart, handleFetchCartReload }) {
-    const [num, setNum] = useState(700)
-
-    const [canGoReview, setCanGoReview] = useState(false)
-    const [canGoPayment, setCanGoPayment] = useState(false)
-    const [canNext, setCanNext] = useState(false)
-
-    const [reelRight, setReelRight] = useState(0)
-
+export default function Checkout({
+    products,
+    canProduct,
+    canCart,
+    handleFetchCartReload,
+    setBanner,
+}) {
+    const [cartItems, setCartItems] = useState(null)
+    const [totalPrice, setTotalPrice] = useState(null)
+    const [currentPage, setCurrentPage] = useState(0)
     const [address, setAddress] = useState('')
-    const [city, setCity] = useState('')
-    const [state, setState] = useState('')
-    const [zipCode, setZipCode] = useState('')
-
     const [addressIsValid, setAddressIsValid] = useState(false)
-    const [cityIsValid, setCityIsValid] = useState(false)
-    const [stateIsValid, setStateIsValid] = useState(false)
-    const [zipCodeIsValid, setZipCodeIsValid] = useState(false)
 
+    const history = useHistory()
     const windowRef = useRef(null)
 
-    const handleUpdateNum = () => setNum(windowRef.current.innerWidth)
+    useEffect(() => {
+        if (canCart && canProduct) handleGetCart()
+    }, [canCart, canProduct])
 
     useEffect(() => {
-        if (windowRef.current != null) {
-            handleUpdateNum()
-            window.addEventListener('resize', handleUpdateNum)
-
-            return () => {
-                window.removeEventListener('resize', handleUpdateNum)
-            }
-        }
-    }, [handleUpdateNum, windowRef.current])
-
-    console.log(num)
-
-    useEffect(() => {
-        validateAddress()
+        handleIsAddressValid()
     }, [address])
-    useEffect(() => {
-        validateCity()
-    }, [city])
-    useEffect(() => {
-        validateState()
-    }, [state])
-    useEffect(() => {
-        validateZipCode()
-    }, [zipCode])
 
-    useEffect(() => {
-        if (reelRight === 0) {
-            if (
-                addressIsValid &&
-                cityIsValid &&
-                stateIsValid &&
-                zipCodeIsValid
-            ) {
-                setCanGoReview(true)
-                setCanNext(true)
-            }
-        }
+    const handleGetCart = async () => {
+        if (products.length === 0) handleRedirect()
+        let items = await CartApi.getItems()
+        if (items.length === 0) handleRedirect()
 
-        if (reelRight === num) setCanGoPayment(true)
-    }, [address, city, state, zipCode, reelRight])
+        let totalPrice = 0
+        items = items.map(item => {
+            const product = products.find(
+                product => product._id === item.productId
+            )
 
-    const validateZipCode = () => {
-        if (Number.isNaN(Number(zipCode))) {
-            setZipCodeIsValid(false)
-            return
-        }
-        if (zipCode.length !== 5) {
-            setZipCodeIsValid(false)
-            return
-        }
+            totalPrice += product.price
+            item.price = product.price
+            item.name = product.name
+            return item
+        })
 
-        setZipCodeIsValid(true)
+        totalPrice += (10 / 100) * totalPrice
+        setTotalPrice(totalPrice)
+        setCartItems(items)
     }
-    const validateState = () => {
-        if (state.length >= 2) {
-            setStateIsValid(true)
-            return
+
+    const handleRedirect = () => history.push('/shop')
+
+    const handleNextpage = () => {
+        if (currentPage === 2) return
+        if (currentPage === 1) {
+            if (!addressIsValid) return
         }
-        setStateIsValid(false)
+        setCurrentPage(currentPage + 1)
     }
-    const validateCity = () => {
-        if (city.length >= 3) {
-            setCityIsValid(true)
-            return
-        }
-        setCityIsValid(false)
+    const handleGoReviewCart = () => {
+        const page = 0
+        if (currentPage === page) return
+        setCurrentPage(page)
     }
-    const validateAddress = () => {
-        const tokens = address.split(' ')
-        if (tokens.length < 3) {
-            setAddressIsValid(false)
+    const handleGoAddressForm = () => {
+        const page = 1
+        if (currentPage === page) return
+        setCurrentPage(page)
+    }
+    const handleGoPayment = () => {
+        if (!addressIsValid) return
+        const page = 2
+        if (currentPage === page) return
+        setCurrentPage(page)
+    }
+
+    const handleUpdateAddress = e => setAddress(e.target.value)
+
+    const handleIsAddressValid = () => {
+        setAddressIsValid(true)
+
+        const validCountries = [
+            'america',
+            'usa',
+            'us',
+            'united states',
+            'united states of america',
+        ]
+
+        let tokens = address.split(' ')
+
+        tokens = tokens.filter(token => token !== '')
+
+        console.log(tokens)
+
+        if (tokens.length === 0) return
+        if (tokens.length < 5) return
+        if (Number.isNaN(Number(tokens[0]))) return
+        console.log('is number')
+        if (tokens[0].length < 3) return
+        console.log('is long number')
+
+        if (
+            !tokens.join('').includes('unitedstates') &&
+            !tokens.join('').includes('unitedstatesofamerica') &&
+            !validCountries.includes(tokens[tokens.length - 1].toLowerCase())
+        )
             return
-        }
-        if (Number.isNaN(Number(tokens[0]))) {
-            setAddressIsValid(false)
-            return
-        }
+
+        console.log('is america')
 
         setAddressIsValid(true)
     }
 
-    const handleSwitchToAddress = () => setReelRight(0)
-    const handleSwitchToReview = () => {
-        if (canGoReview) setReelRight(num)
-    }
-    const handleSwitchToPayment = () => {
-        if (canGoPayment) setReelRight(num * 2)
-    }
-    const handleNext = () => {
-        if (reelRight < num * 2 && canNext) setReelRight(reelRight + num)
-    }
+    const handleOnSuccess = () => {
+        setBanner({
+            type: 'good',
+            text: 'Your payment is complete and the order is on your way!',
+        })
 
-    if (!canCart) return <LoadingScreen />
+        CartApi.clearCart()
+        handleFetchCartReload()
+        history.push('/cart')
+    }
+    const handleOnError = () =>
+        setBanner({
+            type: 'error',
+            text: 'An error has occured, transaction is cancelled',
+        })
 
-    const selectedStyle = { color: 'black', fontWeight: 'normal' }
-    const addressTabStyle = reelRight === 0 ? selectedStyle : {}
-    const reviewTabStyle = reelRight === num ? selectedStyle : {}
-    const paymentTabStyle = reelRight === num * 2 ? selectedStyle : {}
+    if (cartItems == null) return <LoadingScreen />
+
+    const right =
+        currentPage === 0
+            ? 0
+            : currentPage === 1
+            ? windowRef.current.offsetWidth
+            : windowRef.current.offsetWidth * 2
+
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+    })
 
     return (
-        <div className="checkout-page">
-            <div className="tabs">
-                <p
-                    className="tab"
-                    style={addressTabStyle}
-                    onClick={handleSwitchToAddress}
-                >
-                    Address
-                </p>
-                <p
-                    className="tab"
-                    style={reviewTabStyle}
-                    onClick={handleSwitchToReview}
-                >
-                    Review
-                </p>
-                <p
-                    className="tab"
-                    style={paymentTabStyle}
-                    onClick={handleSwitchToPayment}
-                >
-                    Payment
-                </p>
-            </div>
-            <div className="window" ref={windowRef}>
-                <div className="reel" style={{ right: reelRight }}>
-                    <AddressForm
-                        address={address}
-                        setAddress={setAddress}
-                        addressIsValid={addressIsValid}
-                        city={city}
-                        setCity={setCity}
-                        cityIsValid={cityIsValid}
-                        state={state}
-                        setState={setState}
-                        stateIsValid={stateIsValid}
-                        zipCode={zipCode}
-                        setZipCode={setZipCode}
-                        zipCodeIsValid={zipCodeIsValid}
-                    ></AddressForm>
-                    <ReviewForm></ReviewForm>
-                    <PaymentForm
-                        handleFetchCartReload={handleFetchCartReload}
-                    ></PaymentForm>
+        <Fragment>
+            <div className="checkout-page">
+                <div className="tabs-container">
+                    <p
+                        className="tab"
+                        onClick={handleGoReviewCart}
+                        style={{ color: currentPage === 0 ? 'white' : null }}
+                    >
+                        Review Cart
+                    </p>
+                    <p
+                        className="tab"
+                        onClick={handleGoAddressForm}
+                        style={{ color: currentPage === 1 ? 'white' : null }}
+                    >
+                        Address Form
+                    </p>
+                    <p
+                        className="tab"
+                        onClick={handleGoPayment}
+                        style={{ color: currentPage === 2 ? 'white' : null }}
+                    >
+                        Payment
+                    </p>
                 </div>
+                <div className="window" ref={windowRef}>
+                    <div className="reel" style={{ right: `${right}px` }}>
+                        <div className="page review-cart">
+                            <h1 className="total-price">
+                                Total Price: {formatter.format(totalPrice)}
+                            </h1>
+                            <div className="cart-item-container">
+                                {cartItems.map(cartItem => (
+                                    <CheckoutCartItem
+                                        key={cartItem.id}
+                                        item={cartItem}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                        <div className="page address-form">
+                            <p className="address-label">
+                                Type in your address (House Num, Street, City,
+                                Country)
+                            </p>
+                            <input
+                                type="text"
+                                name="address"
+                                className="address-field"
+                                onChange={handleUpdateAddress}
+                                style={{
+                                    borderColor: !addressIsValid
+                                        ? '#f56042'
+                                        : null,
+                                }}
+                            />
+                        </div>
+                        <div className="page checkout-form">
+                            <div className="paypal-container">
+                                <PayPalButton
+                                    shippingPreference="NO_SHIPPING"
+                                    amount={String(totalPrice)}
+                                    currency="USD"
+                                    style={{
+                                        shape: 'pill',
+                                        color: 'blue',
+                                    }}
+                                    onSuccess={handleOnSuccess}
+                                    options={{
+                                        clientId:
+                                            process.env.NODE_ENV ===
+                                            'production'
+                                                ? ''
+                                                : 'AU2sAbWFMuDVw5Qf7koCIHgdZz9bNVtVR25oNfAsXMZiaydeO_NOFTq-qn7TDy_vIDr7jpH5bZTbW8QZ',
+                                    }}
+                                    onError={handleOnError}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <Cta
+                    link="none"
+                    callback={handleNextpage}
+                    className="next-button"
+                >
+                    Next &#8594;
+                </Cta>
             </div>
-            <Cta className="form-cta" link="none" callback={handleNext}>
-                Next &nbsp;➜
-            </Cta>
-        </div>
+            <Footer />
+        </Fragment>
     )
 }

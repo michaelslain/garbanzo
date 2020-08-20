@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import './header.scss'
 import { Link } from 'react-router-dom'
-import CartIcon from '../images/cart.svg'
+import ShopIcon from '../images/cart.svg'
+import MenuIcon from '../images/burger.svg'
 import Storage from '../cartApi'
 import XImage from '../images/x.svg'
-import BurgerImage from '../images/burger.svg'
 
 import Tab from './tab'
 
@@ -54,7 +54,9 @@ export default function Header({ canCart, fetchCartReloadCounter }) {
     return (
         <div className="header">
             <Link to="/">
-                <h1 className="logo">Garbanzo</h1>
+                <h1 className="logo" style={{ opacity: 0 }}>
+                    Garbanzo
+                </h1>
             </Link>
             <div className="text-container">
                 <div className="tabs-container" style={navStyle}>
@@ -66,17 +68,17 @@ export default function Header({ canCart, fetchCartReloadCounter }) {
                     />
                     <Tab link="/">Home</Tab>
                     <Tab link="/shop">Shop</Tab>
-                    <Tab link="/learn-more">Learn More</Tab>
+                    <Tab link="/about">About</Tab>
                 </div>
                 <Tab link="/cart" className="cart">
-                    <img src={CartIcon} alt="Cart" className="cart-image" />
+                    <img src={ShopIcon} className="cart-image" alt="Cart" />
                     {cartNumber}
                 </Tab>
                 <img
-                    src={BurgerImage}
-                    alt="Burger"
                     className="burger"
                     onClick={handleToggleNav}
+                    src={MenuIcon}
+                    alt="Menu"
                 />
             </div>
         </div>

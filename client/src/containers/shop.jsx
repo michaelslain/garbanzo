@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import './shop.scss'
 
 import LoadingScreen from '../components/loadingScreen'
 import Product from '../components/product'
+import Footer from '../components/footer'
+import CoolBackground from '../components/coolBackground'
 
 export default function Shop({ products, canProduct }) {
     if (!canProduct) return <LoadingScreen />
 
-    if (products.length === 0) {
-        return (
+    const main =
+        products.length === 0 ? (
             <div className="no-products-container">
                 <i>
                     <h1 className="text">
@@ -16,14 +18,19 @@ export default function Shop({ products, canProduct }) {
                     </h1>
                 </i>
             </div>
+        ) : (
+            <div className="shop-showcase">
+                {products.map(data => (
+                    <Product key={data._id} data={data} />
+                ))}
+            </div>
         )
-    }
 
     return (
-        <div className="shop-showcase">
-            {products.map(data => (
-                <Product key={data._id} data={data} />
-            ))}
-        </div>
+        <Fragment>
+            {main}
+            <Footer style={{ marginTop: 100 }} />
+            {/* <CoolBackground /> */}
+        </Fragment>
     )
 }
